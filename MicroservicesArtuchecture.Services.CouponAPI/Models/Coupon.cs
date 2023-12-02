@@ -12,10 +12,5 @@ namespace MicroservicesArtuchecture.Services.CouponAPI.Models
         public double DiscountAmount { get; set; }
         public int MinAmount { get; set; }
 
-        public DateTime CreateDate
-        {
-            get { return DateTime.Now; }
-        }
-
     }
 }
