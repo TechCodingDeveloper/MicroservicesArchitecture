@@ -1,7 +1,8 @@
 ﻿using MicroservicesArtuchecture.Services.CouponAPI.Data;
-using MicroservicesArtuchecture.Services.CouponAPI.Models;
+using MicroservicesArtuchecture.Services.CouponAPI.Models.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Utility.Contracts;
 
 namespace MicroservicesArtuchecture.Services.CouponAPI.Controllers
 {
@@ -18,36 +19,33 @@ namespace MicroservicesArtuchecture.Services.CouponAPI.Controllers
 
 
         [HttpGet]
-        public List<Coupon> Get()
+        public MessageContract<List<CouponEntity>> Get()
         {
             try
             {
-                List<Coupon> list = _db.Coupons.ToList();
-                return list;
+                List<CouponEntity> list = _db.Coupons.ToList();
+                return list.ToContract();
             }
-            catch (Exception)
+            catch (Exception ex)    
             {
-
-                throw;
+                return ex.toFailContract<List<CouponEntity>>();
             }
 
         }
 
         [HttpGet]
         [Route("{id:int}")]
-        public Coupon Get(int id)
+        public MessageContract<CouponEntity> Get(int id)
         {
             try
             {
-                Coupon coupon = _db.Coupons.Where(dr => dr.CouponId == id).FirstOrDefault();
-                return coupon;
+                CouponEntity coupon = _db.Coupons.Where(dr => dr.CouponId == id).FirstOrDefault();
+                return coupon.ToContract();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return ex.toFailContract<CouponEntity>();
             }
-
         }
-
     }
 }

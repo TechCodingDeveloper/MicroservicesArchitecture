@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MicroservicesArtuchecture.Services.CouponAPI.Models
+namespace MicroservicesArtuchecture.Services.CouponAPI.Models.Entities
 {
-    public class Coupon
+    public class CouponEntity
     {
         [Key]
         public int CouponId { get; set; }
@@ -11,6 +11,5 @@ namespace MicroservicesArtuchecture.Services.CouponAPI.Models
         [Required]
         public double DiscountAmount { get; set; }
         public int MinAmount { get; set; }
-
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace MicroservicesArtuchecture.Services.CouponAPI.Models.Dto
+﻿namespace MicroservicesArtuchecture.Services.CouponAPI.Models.Contracts
 {
-    public class CouponDto
+    public class CouponContract
     {
         public int CouponId { get; set; }
         public string CouponCode { get; set; }
