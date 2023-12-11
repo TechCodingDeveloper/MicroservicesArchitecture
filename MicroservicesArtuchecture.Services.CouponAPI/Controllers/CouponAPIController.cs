@@ -1,8 +1,11 @@
-﻿using MicroservicesArtuchecture.Services.CouponAPI.Data;
+﻿using AutoMapper;
+using MicroservicesArtuchecture.Services.CouponAPI.Data;
+using MicroservicesArtuchecture.Services.CouponAPI.Models.Contracts;
 using MicroservicesArtuchecture.Services.CouponAPI.Models.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Utility.Contracts;
+using static Azure.Core.HttpHeader;
 
 namespace MicroservicesArtuchecture.Services.CouponAPI.Controllers
 {
@@ -11,40 +14,40 @@ namespace MicroservicesArtuchecture.Services.CouponAPI.Controllers
     public class CouponAPIController : ControllerBase
     {
         private readonly AppDbContext _db;
-
-        public CouponAPIController(AppDbContext db)
+        IMapper _mapper;
+        public CouponAPIController(AppDbContext db,IMapper mapper)
         {
             _db = db;
+            _mapper = mapper;
         }
 
 
         [HttpGet]
-        public MessageContract<List<CouponEntity>> Get()
+        public MessageContract<List<CouponContract>> Get()
         {
             try
             {
                 List<CouponEntity> list = _db.Coupons.ToList();
-                return list.ToContract();
+                return _mapper.Map<List<CouponContract>>(list) .ToContract();
             }
             catch (Exception ex)    
             {
-                return ex.toFailContract<List<CouponEntity>>();
+                return ex.toFailContract<List<CouponContract>>();
             }
-
         }
 
         [HttpGet]
         [Route("{id:int}")]
-        public MessageContract<CouponEntity> Get(int id)
+        public MessageContract<CouponContract> Get(int id)
         {
             try
             {
                 CouponEntity coupon = _db.Coupons.Where(dr => dr.CouponId == id).FirstOrDefault();
-                return coupon.ToContract();
+                return _mapper.Map<CouponContract>(coupon).ToContract();
             }
             catch (Exception ex)
             {
-                return ex.toFailContract<CouponEntity>();
+                return ex.toFailContract<CouponContract>();
             }
         }
     }
