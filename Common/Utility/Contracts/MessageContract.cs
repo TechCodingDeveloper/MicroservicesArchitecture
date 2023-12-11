@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace Utility.Contracts
 {
     public class MessageContract<T>
-        where T : class
     {
         public T?  Result { get; set; }
         public bool IsSuccess { get; set; }
@@ -18,7 +17,6 @@ namespace Utility.Contracts
     public static class MessageContractExtention
     {
          public  static MessageContract<T> ToContract<T>(this T t)
-             where T : class
         {
             return new MessageContract<T>() {
              Result = t,
@@ -26,16 +24,28 @@ namespace Utility.Contracts
             };
         }
 
-        public static MessageContract<T> toFailContract<T> (this Exception message)
-                    where T : class
+        public static MessageContract<T> ToFailContract<T> (this Exception message)
         {
             return new MessageContract<T>()
             {
-                Result = null,
+                Result = default(T),
                 Message = message.Message,
                 IsSuccess = false
             };
         }
+
+        public static MessageContract<T> ToFailContract<T>(this string message)
+        {
+            return new MessageContract<T>()
+            {
+                Result = default(T),
+                Message = message,
+                IsSuccess = false
+            };
+        }
+
+    
+
     }
 
 }

@@ -32,7 +32,7 @@ namespace MicroservicesArtuchecture.Services.CouponAPI.Controllers
             }
             catch (Exception ex)    
             {
-                return ex.toFailContract<List<CouponContract>>();
+                return ex.ToFailContract<List<CouponContract>>();
             }
         }
 
@@ -47,7 +47,79 @@ namespace MicroservicesArtuchecture.Services.CouponAPI.Controllers
             }
             catch (Exception ex)
             {
-                return ex.toFailContract<CouponContract>();
+                return ex.ToFailContract<CouponContract>();
+            }
+        }
+
+
+        [HttpPost]
+        public MessageContract<CouponContract> Post([FromBody] CouponContract couponContract)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return "Create Fail".ToFailContract<CouponContract>();
+                }
+
+                CouponEntity couponEntity = _mapper.Map<CouponEntity>(couponContract);
+                _db.Coupons.Add(couponEntity);
+                _db.SaveChanges();
+
+                return couponContract.ToContract();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToFailContract<CouponContract>();
+            }
+        }
+
+        [HttpPut("{id:int}")]
+        public MessageContract<CouponContract> Put(int id, [FromBody] CouponContract couponContract)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return "Update Fail".ToFailContract<CouponContract>();
+                }
+
+                CouponEntity existingCoupon = _db.Coupons.FirstOrDefault(c => c.CouponId == id);
+                if (existingCoupon == null)
+                {
+                    return "Coupon not found".ToFailContract<CouponContract>();
+                }
+
+                _mapper.Map(couponContract, existingCoupon);
+                _db.SaveChanges();
+
+                return couponContract.ToContract();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToFailContract<CouponContract>();
+            }
+        }
+
+        [HttpDelete("{id:int}")]
+        public MessageContract<bool> Delete(int id)
+        {
+            try
+            {
+                CouponEntity existingCoupon = _db.Coupons.FirstOrDefault(c => c.CouponId == id);
+                if (existingCoupon == null)
+                {
+                    return "Coupon not found".ToFailContract<bool>();
+                }
+
+                _db.Coupons.Remove(existingCoupon);
+                _db.SaveChanges();
+
+                return true.ToContract();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToFailContract<bool>();
             }
         }
     }

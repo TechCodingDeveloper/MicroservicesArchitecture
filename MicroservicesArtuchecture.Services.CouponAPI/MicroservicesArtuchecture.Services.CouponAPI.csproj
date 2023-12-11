@@ -25,4 +25,9 @@
     <ProjectReference Include="..\Common\Utility\Utility.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Contracts\Response\" />
+    <Folder Include="Models\Contracts\Request\" />
+  </ItemGroup>
+
 </Project>
