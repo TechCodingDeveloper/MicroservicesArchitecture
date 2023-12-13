@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroservicesArtuchecture.S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{BDEC5016-60B8-4510-AFDC-011FD0492497}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Common\Utility\Utility.csproj", "{4ED67C3F-625D-4611-BED1-239D8401A44B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "Common\Utility\Utility.csproj", "{4ED67C3F-625D-4611-BED1-239D8401A44B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroservicesArtuchecture.Web", "MicroservicesArtuchecture.Web\MicroservicesArtuchecture.Web.csproj", "{2CD6D21A-E840-4930-94D2-C0FA94C967E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{4ED67C3F-625D-4611-BED1-239D8401A44B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4ED67C3F-625D-4611-BED1-239D8401A44B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4ED67C3F-625D-4611-BED1-239D8401A44B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CD6D21A-E840-4930-94D2-C0FA94C967E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CD6D21A-E840-4930-94D2-C0FA94C967E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CD6D21A-E840-4930-94D2-C0FA94C967E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CD6D21A-E840-4930-94D2-C0FA94C967E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CC75B24C-173A-4369-B844-96756BED3D66} = {F56ACCF8-6521-4754-9A39-BDC48647C52C}
 		{4ED67C3F-625D-4611-BED1-239D8401A44B} = {BDEC5016-60B8-4510-AFDC-011FD0492497}
+		{2CD6D21A-E840-4930-94D2-C0FA94C967E1} = {56E16362-6BB9-430C-BF77-5005111ACECF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B76815C5-B311-41E9-8927-83CC59921591}

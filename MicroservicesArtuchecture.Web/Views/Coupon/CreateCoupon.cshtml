@@ -1,0 +1,25 @@
+﻿@model MicroservicesArtuchecture.Web.Services.CouponAPI.CouponContract
+
+<h1>Create Coupon</h1>
+
+<form method="post">
+    <div>
+        <label asp-for="CouponCode"></label>
+        <input asp-for="CouponCode" />
+        <span asp-validation-for="CouponCode"></span>
+    </div>
+
+    <div>
+        <label asp-for="DiscountAmount"></label>
+        <input asp-for="DiscountAmount" />
+        <span asp-validation-for="DiscountAmount"></span>
+    </div>
+
+    <div>
+        <label asp-for="MinAmount"></label>
+        <input asp-for="MinAmount" />
+        <span asp-validation-for="MinAmount"></span>
+    </div>
+
+    <button type="submit">Create</button>
+</form>

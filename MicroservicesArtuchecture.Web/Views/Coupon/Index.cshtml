@@ -1,0 +1,24 @@
+﻿@model MicroservicesArtuchecture.Web.Services.CouponAPI.CouponContractListMessageContract
+
+<table>
+    <thead>
+        <tr>
+            <th>CouponCode</th>
+            <th>DiscountAmount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Result)
+        {
+            <tr>
+                <td>@item.CouponCode</td>
+                <td>@item.DiscountAmount</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.IsSuccess)
+{
+    <p>Error Message: @Model.Message</p>
+}

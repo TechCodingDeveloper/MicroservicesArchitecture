@@ -1,0 +1,1 @@
+{"AddRefactoringEssentialsPartialClassSupression":true,"AllowOverride":false,"DoNotWriteTargetFile":false,"HTTPTimeout":"00:00:30","IncludeHTTPClientForCSharp":true,"Language":"csharp","Namespace":"nSwagger","SaveSettings":true,"Sources":["http://localhost:7001/swagger/v1/swagger.json"],"Target":"Services"}
