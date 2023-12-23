@@ -26,8 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Contracts\Response\" />
-    <Folder Include="Models\Contracts\Request\" />
+    <Folder Include="Storage\Contracts\Response\" />
+    <Folder Include="Storage\Contracts\Request\" />
   </ItemGroup>
 
 </Project>

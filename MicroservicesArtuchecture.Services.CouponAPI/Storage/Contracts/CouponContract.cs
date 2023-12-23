@@ -1,4 +1,4 @@
-﻿namespace MicroservicesArtuchecture.Services.CouponAPI.Models.Contracts
+﻿namespace MicroservicesArtuchecture.Services.CouponAPI.Storage.Contracts
 {
     public class CouponContract
     {

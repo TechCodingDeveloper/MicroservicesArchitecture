@@ -1,4 +1,4 @@
-﻿using MicroservicesArtuchecture.Services.CouponAPI.Models.Entities;
+﻿using MicroservicesArtuchecture.Services.CouponAPI.Storage.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 

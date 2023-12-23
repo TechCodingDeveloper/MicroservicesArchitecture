@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MicroservicesArtuchecture.Services.CouponAPI.Models.Entities
+namespace MicroservicesArtuchecture.Services.CouponAPI.Storage.Entities
 {
     public class CouponEntity
     {

@@ -21,7 +21,7 @@ namespace MicroservicesArtuchecture.Web.Controllers
         {
             return View();
         }
-        [HttpPost("CreateCoupon")]
+        [HttpPost("CreateCoupon")] 
         public async Task<IActionResult> CreateCoupon(CouponContract model)
         {
             var client = new Client("http://localhost:5000", new HttpClient());

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using MicroservicesArtuchecture.Services.CouponAPI.Models.Contracts;
-using MicroservicesArtuchecture.Services.CouponAPI.Models.Entities;
+using MicroservicesArtuchecture.Services.CouponAPI.Storage.Contracts;
+using MicroservicesArtuchecture.Services.CouponAPI.Storage.Entities;
 
 namespace MicroservicesArtuchecture.Services.CouponAPI
 {

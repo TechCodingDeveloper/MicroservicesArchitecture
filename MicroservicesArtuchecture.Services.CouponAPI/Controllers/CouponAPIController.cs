@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MicroservicesArtuchecture.Services.CouponAPI.Data;
-using MicroservicesArtuchecture.Services.CouponAPI.Models.Contracts;
-using MicroservicesArtuchecture.Services.CouponAPI.Models.Entities;
+using MicroservicesArtuchecture.Services.CouponAPI.Storage.Contracts;
+using MicroservicesArtuchecture.Services.CouponAPI.Storage.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Utility.Contracts;
