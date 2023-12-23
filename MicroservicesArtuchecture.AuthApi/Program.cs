@@ -1,3 +1,4 @@
+using MicroservicesArtuchecture.AuthApi.Contracts;
 using MicroservicesArtuchecture.AuthApi.Storage.Context;
 using MicroservicesArtuchecture.AuthApi.Storage.Models;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +12,7 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.Configure<JwtOptionsContract>
 
 builder.Services.AddIdentity<UserEntity, IdentityRole>().AddEntityFrameworkStores<DatabaseContext>().AddDefaultTokenProviders();
 
