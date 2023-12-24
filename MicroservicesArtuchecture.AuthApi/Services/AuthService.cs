@@ -5,11 +5,12 @@ using MicroservicesArtuchecture.AuthApi.Storage.Context;
 using MicroservicesArtuchecture.AuthApi.Storage.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.EntityFrameworkCore;
 using Utility.Contracts;
 
 namespace MicroservicesArtuchecture.AuthApi.Services
 {
-    public class AuthService
+    public class AuthService: IAuthService
     {
         private readonly DatabaseContext _db;
         private readonly UserManager<UserEntity> _userManager;
@@ -21,9 +22,34 @@ namespace MicroservicesArtuchecture.AuthApi.Services
             _userManager = userManager;
             _roleManager = roleManager;
         }
-        public Task<LoginResponseContract> Login(LoginRequestContract login)
+        public async Task<MessageContract<LoginResponseContract>> Login(LoginRequestContract login)
         {
-            throw new NotImplementedException();
+            var user = await _db.Users.FirstOrDefaultAsync(dr => dr.UserName.ToLower() == login.UserName.ToLower() || dr.Email.ToLower() == login.Email.ToLower() || dr.PhoneNumber.ToLower() == login.PhoneNumber.ToLower());
+
+            if (user is null)
+                return "User and Password is not correct".ToFailContract<LoginResponseContract>();
+
+            bool isValid = await _userManager.CheckPasswordAsync(user, login.Password);
+
+            if (isValid == false)
+                return "User and Password is not correct".ToFailContract<LoginResponseContract>();
+
+            // if user was found, Generate JWT Token
+
+            var userResponse = new LoginResponseContract()
+            {
+                User = new UserContract()
+                {
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    ID = user.Id
+                },
+                Token = ""
+            };
+
+            return userResponse.ToContract();
         }
         public async Task<MessageContract<UserContract>> Register(RegisterRequestContract register)
         {
@@ -51,18 +77,17 @@ namespace MicroservicesArtuchecture.AuthApi.Services
                         LastName = user.LastName,
                         PhoneNumber = user.PhoneNumber,
                     }.ToContract();
-                }else
+                }
+                else
                 {
                     return result.Errors.FirstOrDefault().Description.ToFailContract<UserContract>();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                return ex.ToFailContract<UserContract>();
             }
 
-            return null;
         }
     }
 }
