@@ -15,26 +15,31 @@ namespace MicroservicesArtuchecture.AuthApi.Services
         private readonly DatabaseContext _db;
         private readonly UserManager<UserEntity> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IJwtTokenGeneratorService _jwtTokenGeneratorService;
 
-        public AuthService(DatabaseContext db, UserManager<UserEntity> userManager, RoleManager<IdentityRole> roleManager)
+        public AuthService(DatabaseContext db, UserManager<UserEntity> userManager, RoleManager<IdentityRole> roleManager, IJwtTokenGeneratorService jwtTokenGeneratorService)
         {
             _db = db;
             _userManager = userManager;
             _roleManager = roleManager;
+            _jwtTokenGeneratorService = jwtTokenGeneratorService;   
         }
         public async Task<MessageContract<LoginResponseContract>> Login(LoginRequestContract login)
         {
+            //check user exist
             var user = await _db.Users.FirstOrDefaultAsync(dr => dr.UserName.ToLower() == login.UserName.ToLower() || dr.Email.ToLower() == login.Email.ToLower() || dr.PhoneNumber.ToLower() == login.PhoneNumber.ToLower());
 
             if (user is null)
                 return "User and Password is not correct".ToFailContract<LoginResponseContract>();
 
+            //check password valid
             bool isValid = await _userManager.CheckPasswordAsync(user, login.Password);
 
             if (isValid == false)
                 return "User and Password is not correct".ToFailContract<LoginResponseContract>();
 
             // if user was found, Generate JWT Token
+           string token = _jwtTokenGeneratorService.GenerateToken(user);
 
             var userResponse = new LoginResponseContract()
             {
@@ -46,7 +51,7 @@ namespace MicroservicesArtuchecture.AuthApi.Services
                     LastName = user.LastName,
                     ID = user.Id
                 },
-                Token = ""
+                Token = token
             };
 
             return userResponse.ToContract();
