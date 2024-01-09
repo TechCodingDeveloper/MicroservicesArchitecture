@@ -10,9 +10,10 @@ using Utility.Contracts;
 
 namespace MicroservicesArtuchecture.AuthApi.Services
 {
-    public  interface IAuthService
+    public interface IAuthService
     {
-        public  Task<MessageContract<LoginResponseContract>>  Login(LoginRequestContract login);
-        public  Task<MessageContract<UserContract>>  Register(RegisterRequestContract register);
+        Task<MessageContract<LoginResponseContract>> Login(LoginRequestContract login);
+        Task<MessageContract<UserContract>> Register(RegisterRequestContract register);
+        Task<MessageContract<bool>> AssignRole(UserContract user,string roleName);
     }
 }

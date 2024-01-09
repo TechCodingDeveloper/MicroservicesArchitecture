@@ -3,6 +3,7 @@ using MicroservicesArtuchecture.AuthApi.Contracts.Request;
 using MicroservicesArtuchecture.AuthApi.Contracts.Response;
 using MicroservicesArtuchecture.AuthApi.Storage.Context;
 using MicroservicesArtuchecture.AuthApi.Storage.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ using Utility.Contracts;
 
 namespace MicroservicesArtuchecture.AuthApi.Services
 {
-    public class AuthService: IAuthService
+    public class AuthService : IAuthService
     {
         private readonly DatabaseContext _db;
         private readonly UserManager<UserEntity> _userManager;
@@ -22,8 +23,31 @@ namespace MicroservicesArtuchecture.AuthApi.Services
             _db = db;
             _userManager = userManager;
             _roleManager = roleManager;
-            _jwtTokenGeneratorService = jwtTokenGeneratorService;   
+            _jwtTokenGeneratorService = jwtTokenGeneratorService;
         }
+
+        public async Task<MessageContract<bool>> AssignRole(UserContract user, string roleName)
+        {
+
+            roleName = roleName.ToUpper();
+
+            var userEntity = await _db.Users.FirstOrDefaultAsync(dr => dr.Email.ToLower() == user.Email.ToLower() || dr.PhoneNumber.ToLower() == user.PhoneNumber.ToLower());
+
+            if (userEntity is null)
+                return "User not find".ToFailContract<bool>();
+
+            var role = await _roleManager.RoleExistsAsync(roleName);
+
+            if (role)
+            {
+                await _roleManager.CreateAsync(new IdentityRole(roleName));
+            }
+
+            var result = await _userManager.AddToRoleAsync(userEntity, roleName);
+
+            return true.ToContract();
+        }
+
         public async Task<MessageContract<LoginResponseContract>> Login(LoginRequestContract login)
         {
             //check user exist
@@ -39,7 +63,7 @@ namespace MicroservicesArtuchecture.AuthApi.Services
                 return "User and Password is not correct".ToFailContract<LoginResponseContract>();
 
             // if user was found, Generate JWT Token
-           string token = _jwtTokenGeneratorService.GenerateToken(user);
+            string token = _jwtTokenGeneratorService.GenerateToken(user);
 
             var userResponse = new LoginResponseContract()
             {
@@ -74,14 +98,24 @@ namespace MicroservicesArtuchecture.AuthApi.Services
                 {
                     var userToReturn = _db.Users.First(dr => dr.UserName == user.UserName);
 
-                    return new UserContract()
+
+
+                    var userResult = new UserContract()
                     {
                         Email = user.Email,
                         ID = user.Id,
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         PhoneNumber = user.PhoneNumber,
-                    }.ToContract();
+                    };
+
+                    var role = await AssignRole(userResult, "Member");
+
+                    if(role.IsSuccess==false)
+                        return "The Server can't assign Role Please try again".ToFailContract<UserContract>();
+
+
+                    return userResult.ToContract();
                 }
                 else
                 {
